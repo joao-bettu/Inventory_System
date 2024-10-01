@@ -10,8 +10,8 @@ typedef struct list{
     Produto item;
     int quantidade;
     struct list *next, *prev;
-}Lista;
+}Inventory;
 
 typedef struct sent{
-    Lista *head, *tail;
+    Inventory *head, *tail;
 }Sentinela;

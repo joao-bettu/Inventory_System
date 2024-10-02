@@ -6,8 +6,23 @@ Produto add_item(int id_count);
 Inventory add_to_list(Produto item, Sentinela sentry);
 void null_sentry(Sentinela sentry);
 int main(){
-    
+    int option;
 
+    for(;;){
+        printf("Sitema de Gerenciamento de Inventário\n");
+        printf("\t1 - cadastrar produto\n\t2 - Adicionar ao inventário\n");
+        scanf("%d", &option);
+        
+        switch (option){
+        case 1:
+            break;
+        case 2:
+            break;
+        default:
+            return 0;
+        }
+    }
+    
     return 0;
 }
 Produto add_item(int id_count){

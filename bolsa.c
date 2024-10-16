@@ -4,9 +4,9 @@
 #include <stdbool.h>
 
 void print_produtos(Produto *primeiro);
-Produto add_item(int id_count);
-Inventory add_to_list(Produto item, Sentinela sentry);
-void null_sentry(Sentinela sentry);
+Produto *add_item(Produto *primeiro, int id_count);
+Inventory *add_to_list(Produto *item, Sentinela *sentry, int id_count);
+void null_sentry(Sentinela *sentry);
 int main(){
     int option, id_prod=1;
     Produto *p_prod = NULL;
@@ -25,9 +25,10 @@ int main(){
         case 2:
             break;
         default:
-            return 0;
+            executando = false;
         }
     }
+    return 0;
 }
 Produto *add_item(Produto *primeiro, int id_count){
     Produto *novo, *auxiliar;
@@ -51,21 +52,46 @@ Produto *add_item(Produto *primeiro, int id_count){
     }
     return primeiro;
 }
-Inventory add_to_list(Produto *primeiro, Sentinela sentry){
-    Inventory *atual, *aux;
+Inventory *add_to_list(Produto *primeiro, Sentinela *sentry, int id_count){
+    Inventory *atual, *aux_list;
+    Produto *aux_prod;
+    int sel;
+
+    printf("Qual produto deseja adicionar ao inventário? (Selecione pelo ID)\n");
+    print_produtos(primeiro);
+    scanf("%d", &sel);
+
+    for(aux_prod=primeiro; aux_prod!=NULL; aux_prod=aux_prod->prox){
+        if(aux_prod->id==sel){
+            break;
+        }
+    }
 
     atual = (Inventory *)malloc(sizeof(Inventory));
-
-    printf("Qual produto deseja adicionar ao inventário?\n");
-    print_produtos(primeiro);
+    atual->id = id_count;
+    atual->item = aux_prod;
+    printf("Quantidade do produto a ser adicionado ao inventário?\n");
+    scanf("%d", &atual->quantidade);
+    atual->next = NULL;
+    atual->prev = NULL;
+    if(sentry->head==NULL){
+        sentry->head = atual;
+        sentry->tail = atual;
+    }else{
+        atual->prev = sentry->tail;
+        sentry->tail->next = atual;
+        sentry->tail = atual;
+    }
+    
+    return sentry->head;
 }
 void null_sentry(Sentinela *sentry){
     sentry->head = NULL;
     sentry->tail = NULL;
 }
-print_produtos(Produto *primeiro){
+void print_produtos(Produto *primeiro){
     Produto *aux;
-    printf("Todos os Produtos:\n")
+    printf("Todos os Produtos:\n");
     for(aux=primeiro; aux!=NULL; aux=aux->prox){
         printf("\n\tID: %d\n", aux->id);
         printf("\tNome: %s\n", aux->nome);

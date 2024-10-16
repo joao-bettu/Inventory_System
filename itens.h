@@ -8,7 +8,7 @@ typedef struct prod{
 
 typedef struct list{
     int id;
-    Produto item;
+    Produto *item;
     int quantidade;
     struct list *next, *prev;
 }Inventory;

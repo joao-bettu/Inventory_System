@@ -7,10 +7,15 @@ void print_produtos(Produto *primeiro);
 Produto *add_item(Produto *primeiro, int id_count);
 Inventory *add_to_list(Produto *item, Sentinela *sentry, int id_count);
 void null_sentry(Sentinela *sentry);
+void print_inventory(Sentinela *sentinela);
+
 int main(){
-    int option, id_prod=1;
+    int option, id_prod=1, id_list = 1;
     Produto *p_prod = NULL;
     bool executando = true;
+    Sentinela lista;
+
+    null_sentry(&lista);
 
     while(executando){
         printf("Sitema de Gerenciamento de Inventário\n");
@@ -19,10 +24,12 @@ int main(){
         
         switch (option){
         case 1:
-            add_item(p_prod, id_prod);
+            p_prod = add_item(p_prod, id_prod);
             id_prod++;
             break;
         case 2:
+            add_to_list(p_prod, &lista, id_list);
+            id_list++;
             break;
         default:
             executando = false;
@@ -35,13 +42,16 @@ Produto *add_item(Produto *primeiro, int id_count){
 
     novo = (Produto *)malloc(sizeof(Produto));
 
+    getchar();
     novo->id = id_count;
     printf("Nome o produto: ");
-    scanf("%s", novo->nome);
+    scanf("%[^\n]", novo->nome); // %[^\n] -> Lê a string até a quebra de linha (Enter), trazendo espaços para o vetor de char
+    getchar(); // "Coleta" um enter/espaço para não dar como entrada do próximo scanf
     printf("Descrição do produto: ");
-    scanf("%s", novo->descricao);
+    scanf("%[^\n]", novo->descricao);
+    getchar();
     printf("Peso do produto: ");
-    scanf("%f", &novo->peso);
+    scanf("%lf", &novo->peso);
     novo->prox = NULL;
     if(primeiro==NULL){
         primeiro = novo;
@@ -53,7 +63,7 @@ Produto *add_item(Produto *primeiro, int id_count){
     return primeiro;
 }
 Inventory *add_to_list(Produto *primeiro, Sentinela *sentry, int id_count){
-    Inventory *atual, *aux_list;
+    Inventory *atual;
     Produto *aux_prod;
     int sel;
 
@@ -83,6 +93,8 @@ Inventory *add_to_list(Produto *primeiro, Sentinela *sentry, int id_count){
         sentry->tail = atual;
     }
     
+    print_inventory(sentry);
+
     return sentry->head;
 }
 void null_sentry(Sentinela *sentry){
@@ -91,11 +103,21 @@ void null_sentry(Sentinela *sentry){
 }
 void print_produtos(Produto *primeiro){
     Produto *aux;
-    printf("Todos os Produtos:\n");
+    printf("\nTodos os Produtos:\n");
     for(aux=primeiro; aux!=NULL; aux=aux->prox){
-        printf("\n\tID: %d\n", aux->id);
+        printf("\tID: %d\n", aux->id);
         printf("\tNome: %s\n", aux->nome);
         printf("\tDescrição: %s\n", aux->descricao);
         printf("\tPeso: %f\n", aux->peso);
+    }
+}
+void print_inventory(Sentinela *sentinela){
+    Inventory *aux;
+
+    printf("Lista:\n");
+    for(aux=sentinela->head; aux!=NULL; aux=aux->next){
+        printf("\tID: %d\n", aux->id);
+        printf("\tProduto ID: %d\n", aux->item->id);
+        printf("\tQuantidade: %d\n", aux->quantidade);
     }
 }

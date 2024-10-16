@@ -1,7 +1,7 @@
 typedef struct prod{
     int id;
-    char nome[15];
-    char descricao[30];
+    char nome[30];
+    char descricao[50];
     double peso;
     struct prod *prox;
 }Produto;

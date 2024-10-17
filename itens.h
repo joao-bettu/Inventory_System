@@ -16,4 +16,8 @@ typedef struct list{
 
 typedef struct sent{
     Inventory *head, *tail;
-}Sentinela;
+}S_List;
+
+typedef struct sentry{
+    Produto *first, *last;
+}S_Prod;

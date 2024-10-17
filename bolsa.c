@@ -8,6 +8,8 @@ Produto *add_item(Produto *primeiro, int id_count);
 Inventory *add_to_list(Produto *item, Sentinela *sentry, int id_count);
 void null_sentry(Sentinela *sentry);
 void print_inventory(Sentinela *sentinela);
+void fechamento();
+void abertura();
 
 int main(){
     int option, id_prod=1, id_list = 1;
@@ -16,10 +18,11 @@ int main(){
     Sentinela lista;
 
     null_sentry(&lista);
+    abertura();
 
     while(executando){
-        printf("Sitema de Gerenciamento de Inventário\n");
-        printf("\t1 - cadastrar produto\n\t2 - Adicionar ao inventário\n");
+        printf("\nSitema de Gerenciamento de Inventário\n");
+        printf("\t1 - Cadastrar produto\n\t2 - Adicionar ao inventário\n\t3 - Visualizar produtos\n\t4 - Visualizar inventário\n");
         scanf("%d", &option);
         
         switch (option){
@@ -31,7 +34,14 @@ int main(){
             add_to_list(p_prod, &lista, id_list);
             id_list++;
             break;
+        case 3:
+            print_produtos(p_prod);
+            break;
+        case 4:
+            print_inventory(&lista);
+            break;
         default:
+            fechamento();
             executando = false;
         }
     }
@@ -82,6 +92,7 @@ Inventory *add_to_list(Produto *primeiro, Sentinela *sentry, int id_count){
     atual->item = aux_prod;
     printf("Quantidade do produto a ser adicionado ao inventário?\n");
     scanf("%d", &atual->quantidade);
+    atual->peso_lista = atual->quantidade * atual->item->peso;
     atual->next = NULL;
     atual->prev = NULL;
     if(sentry->head==NULL){
@@ -108,7 +119,7 @@ void print_produtos(Produto *primeiro){
         printf("\tID: %d\n", aux->id);
         printf("\tNome: %s\n", aux->nome);
         printf("\tDescrição: %s\n", aux->descricao);
-        printf("\tPeso: %f\n", aux->peso);
+        printf("\tPeso: %.2f\n", aux->peso);
     }
 }
 void print_inventory(Sentinela *sentinela){
@@ -119,5 +130,14 @@ void print_inventory(Sentinela *sentinela){
         printf("\tID: %d\n", aux->id);
         printf("\tProduto ID: %d\n", aux->item->id);
         printf("\tQuantidade: %d\n", aux->quantidade);
+        printf("\tPeso total: %.2lf\n", aux->peso_lista);
     }
+}
+void fechamento(){
+    printf("Sistema finalizado!\n");
+}
+void abertura(){
+    printf("******************************************\n");
+    printf("* Sistema de Gerenciamento de Inventário *\n");
+    printf("******************************************\n");
 }

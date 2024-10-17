@@ -10,6 +10,7 @@ typedef struct list{
     int id;
     Produto *item;
     int quantidade;
+    double peso_lista;
     struct list *next, *prev;
 }Inventory;
 

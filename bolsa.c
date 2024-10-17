@@ -27,6 +27,7 @@ int main(){
     }
     return 0;
 }
+
 S_Prod *add_item(S_Prod *sentinel, int id_count){
     Produto *novo;
 

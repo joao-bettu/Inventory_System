@@ -11,7 +11,9 @@ void print_produtos(S_Prod *sentinel);
 void print_inventory(S_List *sentinela);
 void fechamento();
 void abertura();
-bool main_menu(S_List *lista, S_Prod *produto);
+void menu_produtos(S_Prod *produto);
+void menu_inventory(S_Prod *produto, S_List *lista);
+bool menu(S_List *lista, S_Prod *produto);
 
 int main(){
     bool executando = true;
@@ -23,7 +25,7 @@ int main(){
     abertura();
 
     while(executando){
-        executando = main_menu(&lista, &produto);
+        executando = menu(&lista, &produto);
     }
     return 0;
 }
@@ -114,7 +116,7 @@ void print_produtos(S_Prod *sentinel){
 void print_inventory(S_List *sentinela){
     Inventory *aux;
 
-    printf("Lista:\n");
+    printf("Inventário:\n");
     for(aux=sentinela->head; aux!=NULL; aux=aux->next){
         printf("\tID: %d\n", aux->id);
         printf("\tProduto ID: %d\n", aux->item->id);
@@ -130,31 +132,60 @@ void abertura(){
     printf("* Sistema de Gerenciamento de Inventário *\n");
     printf("******************************************\n");
 }
-bool main_menu(S_List *lista, S_Prod *produto){
-    int option, id_prod = 1, id_list = 1;
+void menu_produtos(S_Prod *produto){
+    int option, id=1;
+
+    printf("Produtos:\n");
+    printf("\t1 - Adicionar Produto\n\t2 - Visualizar Produtos\n");
+    scanf("%d", &option);
+
+    switch (option) {
+    case 1:
+        add_item(produto, id);
+        id++;
+        break;
+    case 2:
+        print_produtos(produto);
+        break;
+    default:
+        return;
+    }
+}
+void menu_inventory(S_Prod *produto, S_List *lista){
+    int option, id=1;
+
+    printf("Inventário:\n");
+    printf("\t1 - Adicionar ao Inventário\n\t2 - Visualizar Inventário\n");
+    scanf("%d", &option);
+
+    switch (option) {
+    case 1:
+        add_to_list(produto, lista, id);
+        id++;
+        break;
+    case 2:
+        print_inventory(lista);
+        break;
+    default:
+        return;
+    }
+}
+bool menu(S_List *lista, S_Prod *produto){
+    int option;
 
     for(;;){
         printf("\nSitema de Gerenciamento de Inventário\n");
-        printf("\t1 - Cadastrar produto\n\t2 - Adicionar ao inventário\n\t3 - Visualizar produtos\n\t4 - Visualizar inventário\n");
+        printf("\t1 - Produtos\n\t2 - Inventário\n");
         scanf("%d", &option);
-            
+
         switch (option){
         case 1:
-            add_item(produto, id_prod);
-            id_prod++;
+            menu_produtos(produto);
             break;
         case 2:
-            add_to_list(produto, lista, id_list);
-            id_list++;
-            break;
-        case 3:
-            print_produtos(produto);
-            break;
-        case 4:
-            print_inventory(lista);
+            menu_inventory(produto, lista);
             break;
         default:
-            fechamento();
             return false;
         }
     }

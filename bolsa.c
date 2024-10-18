@@ -11,8 +11,8 @@ void print_produtos(S_Prod *sentinel);
 void print_inventory(S_List *sentinela);
 void fechamento();
 void abertura();
-void menu_produtos(S_Prod *produto);
-void menu_inventory(S_Prod *produto, S_List *lista);
+void menu_produtos(S_Prod *produto, int id);
+void menu_inventory(S_Prod *produto, S_List *lista, int id);
 bool menu(S_List *lista, S_Prod *produto);
 
 int main(){
@@ -132,8 +132,8 @@ void abertura(){
     printf("* Sistema de Gerenciamento de Inventário *\n");
     printf("******************************************\n");
 }
-void menu_produtos(S_Prod *produto){
-    int option, id=1;
+void menu_produtos(S_Prod *produto, int id){
+    int option;
 
     printf("Produtos:\n");
     printf("\t1 - Adicionar Produto\n\t2 - Visualizar Produtos\n");
@@ -142,7 +142,6 @@ void menu_produtos(S_Prod *produto){
     switch (option) {
     case 1:
         add_item(produto, id);
-        id++;
         break;
     case 2:
         print_produtos(produto);
@@ -151,8 +150,8 @@ void menu_produtos(S_Prod *produto){
         return;
     }
 }
-void menu_inventory(S_Prod *produto, S_List *lista){
-    int option, id=1;
+void menu_inventory(S_Prod *produto, S_List *lista, int id){
+    int option;
 
     printf("Inventário:\n");
     printf("\t1 - Adicionar ao Inventário\n\t2 - Visualizar Inventário\n");
@@ -161,7 +160,6 @@ void menu_inventory(S_Prod *produto, S_List *lista){
     switch (option) {
     case 1:
         add_to_list(produto, lista, id);
-        id++;
         break;
     case 2:
         print_inventory(lista);
@@ -171,7 +169,7 @@ void menu_inventory(S_Prod *produto, S_List *lista){
     }
 }
 bool menu(S_List *lista, S_Prod *produto){
-    int option;
+    int option, id_prod = 1, id_invetory = 1;
 
     for(;;){
         printf("\nSitema de Gerenciamento de Inventário\n");
@@ -180,10 +178,12 @@ bool menu(S_List *lista, S_Prod *produto){
 
         switch (option){
         case 1:
-            menu_produtos(produto);
+            menu_produtos(produto, id_prod);
+            id_prod++;
             break;
         case 2:
-            menu_inventory(produto, lista);
+            menu_inventory(produto, lista, id_invetory);
+            id_invetory++;
             break;
         default:
             return false;

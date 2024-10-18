@@ -1,7 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
-#include <string.h>
 #include "itens.h"
 
 S_Prod *add_item(S_Prod *sentinel, int id_count);

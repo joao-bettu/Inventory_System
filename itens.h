@@ -3,6 +3,7 @@ typedef struct prod{
     char nome[30];
     char descricao[50];
     double peso;
+    char status[10];
     struct prod *prox;
 }Produto;
 

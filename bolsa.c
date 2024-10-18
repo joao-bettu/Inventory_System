@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
+#include <string.h>
 #include "itens.h"
 
 S_Prod *add_item(S_Prod *sentinel, int id_count);
@@ -45,6 +46,7 @@ S_Prod *add_item(S_Prod *sentinel, int id_count){
     getchar();
     printf("Peso do produto: ");
     scanf("%lf", &novo->peso);
+    sprintf(novo->status, "Ativo");
     novo->prox = NULL;
     if(sentinel->first==NULL){
         sentinel->first = novo;
@@ -111,6 +113,7 @@ void print_produtos(S_Prod *sentinel){
         printf("\tNome: %s\n", aux->nome);
         printf("\tDescrição: %s\n", aux->descricao);
         printf("\tPeso: %.2f\n", aux->peso);
+        printf("\tStatus: %s\n", aux->status);
     }
 }
 void print_inventory(S_List *sentinela){
